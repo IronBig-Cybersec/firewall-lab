@@ -56,3 +56,6 @@ COMMIT
 COMMIT
 # Completed on Sun Jun  1 07:53:49 2025
 
+
+NOTE:
+interfacce attive: doker0 , eth0 , eth1 , localhost
