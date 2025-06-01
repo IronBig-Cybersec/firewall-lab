@@ -1,0 +1,30 @@
+iptables è uno strumento da riga di comando utilizzato su sistemi Linux per configurare e gestire il firewall del kernel basato su netfilter.
+permette di filtrare, reindirizzare, accettare, scartare o modificare pacchetti di rete in base a regole definite dall'utente. È uno dei modi principali con cui Linux gestisce il traffico in entrata, uscita o interno al sistema.
+
+A cosa serve?
+Bloccare o consentire connessioni da specifici IP o porte.
+Limitare il traffico verso/da internet.
+Impostare regole NAT (Network Address Translation).
+Proteggere il sistema da attacchi (es. DoS, port scan).
+Creare politiche di sicurezza per server, router e gateway.
+
+Come funziona?
+iptables lavora con tabelle composte da catene di regole:
+
+Tabelle principali:
+filter: la tabella predefinita, per il filtraggio del traffico.
+nat: usata per il NAT (es. port forwarding).
+mangle: modifica dei pacchetti.
+raw: usata per bypassare il connection tracking.
+
+Catene principali:
+INPUT: pacchetti destinati al sistema locale.
+OUTPUT: pacchetti generati dal sistema.
+FORWARD: pacchetti che passano attraverso il sistema (routing).
+PREROUTING e POSTROUTING: usate per NAT e mangle.
+
+Da sapere:
+Le regole impostate con iptables non sono permanenti: si perdono al riavvio, a meno che non vengano salvate tramite tool come iptables-save o con script all’avvio.
+iptables è in parte deprecato in favore di nftables (più moderno e flessibile), ma è ancora largamente usato.
+
+NOTA: non si rende necessaria l'installazione in quanto è strumento predefinito.
