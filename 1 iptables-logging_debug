@@ -1,0 +1,44 @@
+LOGGING E DEBUG FIREWALL
+
+Obiettivo:
+Monitorare cosa viene bloccato o accettato per capire se le regole stanno funzionando come previsto, utile per il tuning e per audit successivi.
+
+ESEMPI:
+Loggare tutti i pacchetti bloccati in ingresso
+'''bash
+sudo iptables -A INPUT -j LOG --log-prefix "DROP IN: " --log-level 4
+(I log finiranno in /var/log/syslog o con journalctl -f)
+
+Loggare solo ICMP bloccati (ping)
+'''bash
+sudo iptables -A INPUT -p icmp --icmp-type echo-request -j LOG --log-prefix "ICMP BLOCK: " --log-level 4
+
+Loggare tentativi su porte sospette (es. 6667 IRC)
+'''bash
+sudo iptables -A INPUT -p tcp --dport 6667 -j LOG --log-prefix "IRC ATTEMPT: " --log-level 4
+
+RIMOZIONE DI REGOLE DI LOGGING:
+'''bash
+sudo iptables -D INPUT -p icmp --icmp-type echo-request -j LOG --log-prefix "ICMP BLOCK: " --log-level 4
+(specifica regola)
+
+oppure puoi rimuovere le regole indicandone il numero assegnato
+'''bash
+sudo iptables -L --line-numbers
+(elenca le regole per numero)
+'''bash
+sudo iptables -D INPUT <numero_regola>
+(rimuove la regola al numero specifico)
+
+
+NOTA:
+Dove si trovano i log?
+/var/log/syslog (sistemi Linux-like)
+Comando: journalctl -f per vedere in tempo reale
+
+INFORMAZIONI UTILI:
+LOGGING: Registrare eventi o traffico che passa o viene bloccato dalle regole firewall, utile per monitoraggio, auditing, analisi forense, tuning delle regole.
+DEBUG: Analizzare in dettaglio il comportamento delle regole o del traffico per identificare problemi o comportamenti inaspettati, utile per risoluzione problemi, ottimizzazione, test regole.
+
+edited by Edoardo Mattarino
+
