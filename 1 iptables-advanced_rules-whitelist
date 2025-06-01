@@ -1,0 +1,30 @@
+Obiettivi principali:
+Limitare accesso SSH (porta 22) solo da IP specifici o da rete interna
+Bloccare ping ICMP in ingresso (per evitare host discovery)
+Consentire traffico DNS solo verso server affidabili (es. 8.8.8.8)
+Bloccare porte inutilizzate note (es. 6667 IRC o 1524 bindshell se non usate)
+
+
+# Blocca tutto ICMP in ingresso (ping)
+sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+
+# Limita SSH (22) solo da rete 10.10.10.0/24 (esempio)
+sudo iptables -A INPUT -p tcp --dport 22 -s 10.10.10.0/24 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 22 -j DROP
+
+# Consenti DNS (53) solo verso 8.8.8.8 e 1.1.1.1
+sudo iptables -A OUTPUT -p udp --dport 53 -d 8.8.8.8 -j ACCEPT
+sudo iptables -A OUTPUT -p udp --dport 53 -d 1.1.1.1 -j ACCEPT
+sudo iptables -A OUTPUT -p udp --dport 53 -j DROP
+
+# Blocca porta 6667 (IRC) in ingresso e uscita
+sudo iptables -A INPUT -p tcp --dport 6667 -j DROP
+sudo iptables -A OUTPUT -p tcp --dport 6667 -j DROP
+
+# Blocca porta 1524 (bindshell)
+sudo iptables -A INPUT -p tcp --dport 1524 -j DROP
+sudo iptables -A OUTPUT -p tcp --dport 1524 -j DROP
+
+
+NOTA: la rete 10.10.10.0/24 è un IP generico fittizio utilizzato come esempio, ricorda che in questa modalità di settaggio tutte le regole svaniranno al riavvio della macchina, non avendo creato nessuno script.
+nella sezione "7-scripts" troverai alcuni esempi di script automatizzati per rendere permanenti queste regole ad ogni riavvio.
