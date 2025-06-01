@@ -3,6 +3,8 @@ LOGGING E DEBUG FIREWALL
 Obiettivo:
 Monitorare cosa viene bloccato o accettato per capire se le regole stanno funzionando come previsto, utile per il tuning e per audit successivi.
 
+1) LOGGING
+
 ESEMPI:
 Loggare tutti i pacchetti bloccati in ingresso
 '''bash
@@ -35,6 +37,23 @@ NOTA:
 Dove si trovano i log?
 /var/log/syslog (sistemi Linux-like)
 Comando: journalctl -f per vedere in tempo reale
+
+
+
+2) DEBUG
+
+Per controllare il comportamento delle regole o perché un pacchetto non passa:
+
+Visualizza i contatori:
+'''bash
+sudo iptables -L -v -n
+
+Se c'è un problema di comunicazione con un IP specifico puoi aggiungere una regola temporanea per accettare tutto e isolare il problema:
+'''bash
+sudo iptables -I INPUT 1 -s 192.168.1.100 -j ACCEPT
+
+NOTA: utilizzare ping, curl, telnet, nc per testare servizi ed anche tcpdump o wireshark per catturare pacchetti ed analizzarli
+
 
 INFORMAZIONI UTILI:
 LOGGING: Registrare eventi o traffico che passa o viene bloccato dalle regole firewall, utile per monitoraggio, auditing, analisi forense, tuning delle regole.
