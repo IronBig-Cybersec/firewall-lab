@@ -34,3 +34,15 @@ Benvenuto nel mio laboratorio personale dedicato alla configurazione, gestione e
 - Analisi di una scansione `nmap` e mitigazione
 - Simulazione attacco DoS e risposta del firewall
 
+STRUTTURA:
+- MAIN
+- installazione
+- configurazione_base
+- policy_blocco
+- logging
+- test_regole
+- screenshots
+- scripts
+- report
+
+
